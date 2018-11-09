@@ -1,10 +1,10 @@
-package com.company;
+package com.blackjack;
 
-import com.company.command.Command;
-import com.company.command.DoubleDownCommand;
-import com.company.command.HitCommand;
-import com.company.command.StandCommand;
-import com.company.command.SurrenderCommand;
+import com.blackjack.command.Command;
+import com.blackjack.command.DoubleDownCommand;
+import com.blackjack.command.HitCommand;
+import com.blackjack.command.StandCommand;
+import com.blackjack.command.SurrenderCommand;
 
 public class CommandParser {
     public static Command parseCommand(String input) throws Exception {

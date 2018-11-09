@@ -1,4 +1,4 @@
-package com.company;
+package com.blackjack;
 
 import javafx.util.Pair;
 
@@ -45,6 +45,6 @@ public class Card {
             break;
         }
 
-        return getSuit() + " " + cardValue + " " + Integer.toString(getIndex());
+        return getSuit() + " " + cardValue;
     }
 }

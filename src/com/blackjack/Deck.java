@@ -1,4 +1,4 @@
-package com.company;
+package com.blackjack;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,6 +15,12 @@ public class Deck {
     public Deck() {
         initializeDeck();
         shuffleDeck();
+
+        /*
+        for (Card card : cards) {
+            System.out.println(card);
+        }
+        */
     }
 
     /**
@@ -25,12 +31,13 @@ public class Deck {
         for (int i = 2; i <= 14; i++) {
             for (String suit : suits) {
                 cards.add(new Card(suit, i));
+
             }
         }
     }
 
     /**
-     * Shuffle the deck
+     * Shuffles the deck
      */
     public void shuffleDeck() {
         Collections.shuffle(cards);

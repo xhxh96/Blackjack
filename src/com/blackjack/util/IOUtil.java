@@ -1,4 +1,4 @@
-package com.company.util;
+package com.blackjack.util;
 
 import java.util.Scanner;
 

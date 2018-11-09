@@ -1,7 +1,7 @@
-package com.company.command;
+package com.blackjack.command;
 
-import com.company.Deck;
-import com.company.player.Player;
+import com.blackjack.Deck;
+import com.blackjack.player.Player;
 
 public class DoubleDownCommand extends Command {
     public static final String COMMAND_WORD = "3";
@@ -11,6 +11,6 @@ public class DoubleDownCommand extends Command {
         player.setMoney(player.getMoney() - player.getBet());
         player.setBet(player.getBet() * 2);
         player.setHands(deck.getCard());
-        player.setTurnEnds();
+        player.turnEnds();
     }
 }

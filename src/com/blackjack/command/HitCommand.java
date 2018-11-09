@@ -1,7 +1,7 @@
-package com.company.command;
+package com.blackjack.command;
 
-import com.company.Deck;
-import com.company.player.Player;
+import com.blackjack.Deck;
+import com.blackjack.player.Player;
 
 public class HitCommand extends Command {
     public static final String COMMAND_WORD = "1";

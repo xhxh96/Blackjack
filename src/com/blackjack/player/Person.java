@@ -1,9 +1,9 @@
-package com.company.player;
+package com.blackjack.player;
 
-import com.company.CommandParser;
-import com.company.Deck;
-import com.company.command.Command;
-import com.company.util.IOUtil;
+import com.blackjack.CommandParser;
+import com.blackjack.Deck;
+import com.blackjack.command.Command;
+import com.blackjack.util.IOUtil;
 
 public class Person extends Player {
     public Person(){
@@ -12,14 +12,11 @@ public class Person extends Player {
 
     @Override
     public void play(Deck deck) {
-        setHandStrength();
-        checkBlackJack();
-
-        while (!getTurnEnds()) {
+        while (!getHasEndedTurn()) {
             System.out.println("Your Turn: ");
             String input;
             Command command;
-            input = IOUtil.input.nextLine();
+            input = IOUtil.input.next();
 
             try {
                 command = CommandParser.parseCommand(input);
@@ -28,7 +25,13 @@ public class Person extends Player {
                 System.out.println(e.getMessage());
             }
             setHandStrength();
+            checkBust();
+
+            System.out.println("You have the hand " + getHand());
+
+            if (getHasBusted()) {
+                System.out.println("You have busted!");
+            }
         }
-        setTurnEnds();
     }
 }

@@ -1,26 +1,27 @@
-package com.company.player;
+package com.blackjack.player;
 
 import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.company.Card;
-import com.company.Deck;
+import com.blackjack.Card;
+import com.blackjack.Deck;
 
 public abstract class Player {
     private Integer bet;
     private Integer money;
     private SortedSet<Card> hand = new TreeSet<>(Comparator.comparing(Card::getIndex));
     private Integer handStrength;
-    private boolean turnEnds;
-    private boolean surrender;
-    private boolean blackJack;
+    private boolean hasEndedTurn;
+    private boolean hasSurrendered;
+    private boolean hasBlackJack;
+    private boolean hasBusted;
 
     public Player() {
         this.money = 100;
-        this.turnEnds = false;
-        this.surrender = false;
-        this.blackJack = false;
+        this.hasEndedTurn = false;
+        this.hasSurrendered = false;
+        this.hasBlackJack = false;
     }
 
     public void setBet(Integer bet) {
@@ -38,21 +39,26 @@ public abstract class Player {
     public void startNewRound() {
         hand.clear();
         bet = 10;
-        turnEnds = false;
-        surrender = false;
-        blackJack = false;
+        hasEndedTurn = false;
+        hasSurrendered = false;
+        hasBlackJack = false;
+        hasBusted = false;
     }
 
-    public void setTurnEnds() {
-        turnEnds = true;
+    public void turnEnds() {
+        hasEndedTurn = true;
     }
 
-    public void setSurrender() {
-        surrender = true;
+    public void surrenders() {
+        hasSurrendered = true;
     }
 
-    public void setBlackJack() {
-        blackJack = true;
+    public void blackJack() {
+        hasBlackJack = true;
+    }
+
+    public void busted() {
+        hasBusted = true;
     }
 
     public void setHandStrength() {
@@ -82,16 +88,20 @@ public abstract class Player {
         return money;
     }
 
-    public boolean getTurnEnds() {
-        return turnEnds;
+    public boolean getHasEndedTurn() {
+        return hasEndedTurn;
     }
 
-    public boolean getSurrender() {
-        return surrender;
+    public boolean getHasSurrendered() {
+        return hasSurrendered;
     }
 
-    public boolean getBlackJack() {
-        return blackJack;
+    public boolean getHasBlackJack() {
+        return hasBlackJack;
+    }
+
+    public boolean getHasBusted() {
+        return hasBusted;
     }
 
     public Integer getHandStrength() {
@@ -106,8 +116,15 @@ public abstract class Player {
 
     public void checkBlackJack() {
         if (handStrength == 21) {
-            setBlackJack();
-            setTurnEnds();
+            blackJack();
+            turnEnds();
+        }
+    }
+
+    public void checkBust() {
+        if (handStrength > 21) {
+            busted();
+            turnEnds();
         }
     }
 

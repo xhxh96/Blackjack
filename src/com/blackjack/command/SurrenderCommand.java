@@ -1,14 +1,14 @@
-package com.company.command;
+package com.blackjack.command;
 
-import com.company.Deck;
-import com.company.player.Player;
+import com.blackjack.Deck;
+import com.blackjack.player.Player;
 
 public class SurrenderCommand extends Command {
     public static final String COMMAND_WORD = "5";
 
     @Override
     public void execute(Player player, Deck deck) {
-        player.setSurrender();
-        player.setTurnEnds();
+        player.surrenders();
+        player.turnEnds();
     }
 }

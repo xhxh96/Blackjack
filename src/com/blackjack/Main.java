@@ -1,8 +1,8 @@
-package com.company;
+package com.blackjack;
 
-import com.company.player.Dealer;
-import com.company.player.Person;
-import com.company.player.Player;
+import com.blackjack.player.Dealer;
+import com.blackjack.player.Person;
+import com.blackjack.player.Player;
 
 public class Main {
 
@@ -18,29 +18,21 @@ public class Main {
             // Initialize the game for both dealer and person
             gameLogic.startRound(person, dealer);
 
-            // Initialize the round by dealing 2 cards to each player
+            // Initialize the round by dealing 2 cards to each player, calculates the hand strength and checks for blackjack
             gameLogic.initializeCards(person, dealer, deck);
 
-
             gameLogic.checkGameState(person, dealer);
 
-            // person starts first
-            person.play(deck);
+            // If neither player nor dealer has blackjack
+            if (!person.getHasBlackJack() && !dealer.getHasBlackJack()) {
+                // person starts first
+                person.play(deck);
 
-            // dealer goes next
-            dealer.play(deck);
-
-            gameLogic.checkGameState(person, dealer);
+                // dealer goes next
+                dealer.play(deck);
+            }
 
             Player winner = gameLogic.determineWinner(person, dealer);
-
-            if (winner == null) {
-                System.out.println("It's a draw .... ");
-            } else if (winner == person) {
-                System.out.println("You won!");
-            } else {
-                System.out.println("Dealer won ... ");
-            }
 
             gameLogic.conferWinner(winner, person, dealer);
             System.out.println("======== END OF ROUND ========\n\n");
