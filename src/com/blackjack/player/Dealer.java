@@ -34,7 +34,7 @@ public class Dealer extends Player {
                 Command hitCommand = new HitCommand();
                 hitCommand.execute(this, deck);
             } else {                    // else dealer will stand
-                System.out.println("Delaer has chosen to stand.");
+                System.out.println("Dealer has chosen to stand.");
                 Command standCommand = new StandCommand();
                 standCommand.execute(this, deck);
             }

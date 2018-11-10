@@ -14,7 +14,7 @@ public class Deck {
 
     public Deck() {
         initializeDeck();
-        //shuffleDeck();
+        shuffleDeck();
 
     }
 

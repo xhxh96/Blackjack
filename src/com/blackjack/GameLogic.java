@@ -9,17 +9,15 @@ import com.blackjack.player.Person;
 import com.blackjack.player.Player;
 
 public class GameLogic {
+    /**
+     * Shows the face up card that dealer has, the cards that player has
+     */
     public void initialGameState(Person person, Dealer dealer) {
         System.out.println("Dealer currently has the hand " + dealer.getHand().get(0) + " and an unknown card.");
         System.out.println();
 
         System.out.println("Your bet is currently " + person.getBet() + " with a pool of " + person.getMoney());
         System.out.println("You currently have the hand " + person.getHand());
-
-        if (person.getHasSplit()) {
-            System.out.println("You split bet is currently " + person.getSplitBet() + " with a pool of " + person.getMoney());
-            System.out.println("You currently have the hand " + person.getSplitHand());
-        }
     }
 
     /**
@@ -98,7 +96,7 @@ public class GameLogic {
 
     /**
      * Initialize the game for the start of each round, calculates the initial strength of each player and checks if
-     * players have gotten blackjack
+     * player has gotten blackjack
      */
     public void initializeCards(Person person, Dealer dealer, Deck deck) {
         dealer.setHand(deck.getCard());
@@ -126,6 +124,7 @@ public class GameLogic {
 
         List<Card> sortedHand = new ArrayList<>(hand);
 
+        // Sort the cards by ascending values (2 being smallest, A being biggest)
         sortedHand.sort(Comparator.comparing(Card::getIndex));
 
         for (Card card : sortedHand) {
@@ -133,9 +132,9 @@ public class GameLogic {
                 strength += card.getIndex();
             } else if (card.getIndex() > 10 && card.getIndex() < 14) {  // for cards J, Q and K
                 strength += 10;
-            } else if (strength + 11 > 21) {    // for card Ace, with total strength exceeding 21 if Ace = 11
+            } else if (strength + 11 > 21) {    // for card Ace, with total strength exceeding 21 if Ace = 11, Ace = 1
                 strength += 1;
-            } else {                            // for card Ace for all other cases
+            } else {                            // for card Ace for all other cases, Ace = 11
                 strength += 11;
             }
         }
@@ -143,7 +142,9 @@ public class GameLogic {
     }
 
     /**
-     * Performs the paying of player should player have won
+     * Calculates how much player should receive
+     * @param blackjack is set to {@code true} if this method is used calculate winning when player blackjacked
+     * @param split is set to {@code true} if this method is used to calculate winning for player's split hand
      */
     public void dealerPaysPlayer(Person person, Dealer dealer, boolean blackjack, boolean split) {
         if (blackjack) {
