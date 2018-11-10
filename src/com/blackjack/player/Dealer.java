@@ -1,5 +1,7 @@
 package com.blackjack.player;
 
+import java.util.concurrent.TimeUnit;
+
 import com.blackjack.Deck;
 import com.blackjack.GameLogic;
 import com.blackjack.command.Command;
@@ -17,13 +19,21 @@ public class Dealer extends Player {
     @Override
     public void play(Deck deck) {
         while (!hasEndedTurn) {
+            System.out.println("\n=====================");
             System.out.println("Dealer's Turn: ");
 
-            if (handStrength <= 17) {
+            // Delay 3 seconds to mimic an actual dealer thinking
+            try{
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+            if (handStrength < 17) {    // if dealer's strength < 17, dealer will hit
                 System.out.println("Dealer has chosen to hit.");
                 Command hitCommand = new HitCommand();
                 hitCommand.execute(this, deck);
-            } else {
+            } else {                    // else dealer will stand
                 System.out.println("Delaer has chosen to stand.");
                 Command standCommand = new StandCommand();
                 standCommand.execute(this, deck);

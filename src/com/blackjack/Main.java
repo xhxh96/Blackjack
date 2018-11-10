@@ -1,5 +1,7 @@
 package com.blackjack;
 
+import static java.lang.Math.abs;
+
 import com.blackjack.player.Dealer;
 import com.blackjack.player.Person;
 import com.blackjack.player.Player;
@@ -38,6 +40,8 @@ public class Main {
         userInput = userInput.toUpperCase();
 
         while (!gameLogic.endGame(person) && userInput.equals("Y")) {
+            System.out.println("======== START OF ROUND ========");
+
             // Initialize a new deck
             Deck deck = new Deck();
 
@@ -55,22 +59,32 @@ public class Main {
                 // person starts first
                 person.play(deck);
 
-                // if player chooses not to surrender and dealer does not have Blackjack
-                if (!person.getHasSurrendered() && !dealer.getHasBlackJack()) {
+                // if player chooses not to surrender and dealer does not have Blackjack and player did not bust
+                if ((!person.getHasSurrendered() && !dealer.getHasBlackJack()) && !person.getHasBusted()) {
                     // dealer goes next
                     dealer.play(deck);
                 }
             }
+            System.out.println("\n\n\n********RESULTS********");
 
             Player winner = gameLogic.determineWinner(person, dealer);
             gameLogic.conferWinner(winner, person, dealer);
 
             System.out.println("Your current pool is $" + person.getMoney());
-            System.out.println("======== END OF ROUND ========\n\n");
+            System.out.println("======== END OF ROUND ========");
             System.out.println("Continue? (Y/N)");
             userInput = IOUtil.input.next();
             userInput = userInput.toUpperCase();
         }
-        System.out.println("You have won: " + Integer.toString(person.getMoney() - Person.INITIAL_MONEY));
+
+        Integer balance = person.getMoney() - Person.INITIAL_MONEY;
+
+        if (balance.equals(0)) {
+            System.out.println("You either broke even, or you didn't even play Alice Blackjack ...");
+        } else if (balance > 0) {
+            System.out.println("You have earned $" + Integer.toString(balance));
+        } else {
+            System.out.println("You have lost $" + Integer.toString(abs(balance)));
+        }
     }
 }

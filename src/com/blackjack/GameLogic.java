@@ -39,6 +39,7 @@ public class GameLogic {
 
     /**
      * Determine the winner of the game at the end of each round.
+     * The aim here is to get cases where dealer has won as that will have no impact on the player's pool
      * @return {@code Person} if there is a winner, {@code null} is it is a draw
      */
     public Player determineWinner(Person person, Dealer dealer) {
@@ -60,14 +61,18 @@ public class GameLogic {
                 return person;
             } else if (dealer.getHandStrength() > person.getHandStrength()  // if dealer trumps both player's hands -> dealer won
                     && dealer.getHandStrength() > person.getSplitHandStrength()) {
-                System.out.println("Dealer's hand is stronger than both of player's hands. Player won!");
+                System.out.println("Dealer's hand is stronger than both of player's hands. Dealer won!");
                 return dealer;
-            } else {
-                return null;    // for all other instances, draw
+            } else {        // for all other instances, it's a draw -> no winner
+                System.out.println("It's a draw");
+                return null;
             }
         } else {
             if (person.getHasSurrendered()) {    // player surrendered -> dealer won
                 System.out.println("Player has surrendered. Dealer won!");
+                return dealer;
+            } else if (person.getHasBusted()){  // player busted -> dealer won
+                System.out.println("Player has busted. Dealer won!");
                 return dealer;
             } else if (person.getHasBlackJack() && !dealer.getHasBlackJack()) {   // person blackjacked while dealer didn't -> player won
                 System.out.println("Player has the Blackjack! Player won!");
@@ -75,14 +80,9 @@ public class GameLogic {
             } else if (!person.getHasBlackJack() && dealer.getHasBlackJack()) {   // dealer blackjacked while player didn't -> dealer won
                 System.out.println("Dealer has the Blackjack! Dealer won!");
                 return dealer;
-            } else if (person.getHasBusted() && !dealer.getHasBusted()) {   // person has busted while dealer didn't -> dealer won
-                System.out.println("Player has busted. Dealer won!");
-                return dealer;
-            } else if (!person.getHasBusted() && dealer.getHasBusted()) {   // dealer has busted while player didn't -> player won
+            } else if (!person.getHasBusted() && dealer.getHasBusted()) {         // dealer has busted while player didn't -> player won
                 System.out.println("Dealer has busted. Player won!");
                 return person;
-            }else if (person.getHasBusted() && dealer.getHasBusted()) {     // player and dealer both busted -> draw
-                return null;
             } else if (person.getHandStrength() > dealer.getHandStrength()) {   // person has a stronger hand than dealer -> player won
                 System.out.println("Player has the stronger hand. Player won!");
                 return person;
