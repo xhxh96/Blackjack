@@ -19,7 +19,7 @@ public class Main {
             "4. No resplitting is allowed - split is limited to at most 2 hands.\n" +
             "5. Buy-in has a minimum of $100 and maximum of (also) $100. Stake is at $10.\n" +
             "6. Doubledown for split is allowed." +
-            "7. Player can hit more than one additional card for each hand after a Split\n\n" +
+            "7. Player can hit more than one additional card for each hand after a Split of Aces\n\n" +
             "To begin game, enter Y. Otherwise, enter N to exit.";
 
     public static void main(String[] args) {
