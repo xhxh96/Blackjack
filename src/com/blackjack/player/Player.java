@@ -1,44 +1,47 @@
 package com.blackjack.player;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.PriorityQueue;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import com.blackjack.Card;
 import com.blackjack.Deck;
 
+/**
+ * An abstract class to represent the players involved
+ */
 public abstract class Player {
-    private Integer bet;
-    private Integer money;
-    private SortedSet<Card> hand = new TreeSet<>(Comparator.comparing(Card::getIndex));
-    private Integer handStrength;
-    private boolean hasEndedTurn;
-    private boolean hasSurrendered;
-    private boolean hasBlackJack;
-    private boolean hasBusted;
+    public static final Integer BLACKJACK_VALUE = 21;
+
+    protected List<Card> hand = new ArrayList<>();
+    protected Integer handStrength;
+    protected boolean hasEndedTurn;
+    protected boolean hasSurrendered;
+    protected boolean hasBlackJack;
+    protected boolean hasBusted;
 
     public Player() {
-        this.money = 100;
         this.hasEndedTurn = false;
         this.hasSurrendered = false;
         this.hasBlackJack = false;
     }
 
-    public void setBet(Integer bet) {
-        this.bet = bet;
-    }
-
-    public void setMoney(Integer money) {
-        this.money = money;
-    }
-
-    public void setHands(Card card) {
+    /**
+     * Adds {@code Card} into the {@code Player} hand
+     * @param card to be added
+     */
+    public void setHand(Card card) {
         hand.add(card);
     }
 
+    /**
+     * Reset player stats to start a new round of the game
+     */
     public void startNewRound() {
         hand.clear();
-        bet = 10;
         hasEndedTurn = false;
         hasSurrendered = false;
         hasBlackJack = false;
@@ -61,31 +64,8 @@ public abstract class Player {
         hasBusted = true;
     }
 
-    public void setHandStrength() {
-        int strength = 0;
-
-        for (Card card : hand) {
-
-            if (card.getIndex() <= 10) {    // for cards with index between 2 to 10
-                strength += card.getIndex();
-            } else if (card.getIndex() > 10 && card.getIndex() < 14) {  // for cards J, Q and K
-                strength += 10;
-            } else if (strength + 11 > 21) {    // for card Ace, with total strength exceeding 21 if Ace = 11
-                strength += 1;
-            } else {                            // for card Ace for all other cases
-                strength += 11;
-            }
-        }
-
-        handStrength = strength;
-    }
-
-    public Integer getBet() {
-        return bet;
-    }
-
-    public Integer getMoney() {
-        return money;
+    public void setHandStrength(int handStrength) {
+        this.handStrength = handStrength;
     }
 
     public boolean getHasEndedTurn() {
@@ -108,21 +88,25 @@ public abstract class Player {
         return handStrength;
     }
 
-    public SortedSet<Card> getHand() {
+    public List<Card> getHand() {
         return hand;
     }
 
-
-
+    /**
+     * Checks of Player has gotten Blackjack
+     */
     public void checkBlackJack() {
-        if (handStrength == 21) {
+        if (handStrength.equals(BLACKJACK_VALUE)) {
             blackJack();
             turnEnds();
         }
     }
 
+    /**
+     * Checks if player has busted
+     */
     public void checkBust() {
-        if (handStrength > 21) {
+        if (handStrength > BLACKJACK_VALUE) {
             busted();
             turnEnds();
         }

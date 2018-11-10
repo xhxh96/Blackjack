@@ -5,7 +5,7 @@ import javafx.util.Pair;
 public class Card {
     private Pair<String, Integer> type;
 
-    public Card(String suit, Integer number) {
+    Card(String suit, Integer number) {
         type = new Pair<>(suit, number);
     }
 
@@ -46,5 +46,12 @@ public class Card {
         }
 
         return getSuit() + " " + cardValue;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj == this
+                || (obj instanceof Card
+                && type.getValue().equals(((Card) obj).getIndex()));
     }
 }

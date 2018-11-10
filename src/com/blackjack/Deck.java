@@ -16,11 +16,6 @@ public class Deck {
         initializeDeck();
         shuffleDeck();
 
-        /*
-        for (Card card : cards) {
-            System.out.println(card);
-        }
-        */
     }
 
     /**
@@ -39,7 +34,7 @@ public class Deck {
     /**
      * Shuffles the deck
      */
-    public void shuffleDeck() {
+    private void shuffleDeck() {
         Collections.shuffle(cards);
     }
 
