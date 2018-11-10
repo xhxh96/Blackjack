@@ -39,7 +39,7 @@ public class GameLogic {
 
     /**
      * Determine the winner of the game at the end of each round.
-     * The aim here is to get cases where dealer has won as that will have no impact on the player's pool
+     * The aim here is to sieve out cases where player did win some money
      * @return {@code Person} if there is a winner, {@code null} is it is a draw
      */
     public Player determineWinner(Person person, Dealer dealer) {
@@ -146,8 +146,6 @@ public class GameLogic {
      * Performs the paying of player should player have won
      */
     public void dealerPaysPlayer(Person person, Dealer dealer, boolean blackjack, boolean split) {
-        Integer initialMoney = person.getMoney();
-
         if (blackjack) {
             person.setMoney(person.getMoney() + person.getBet() + (person.getBet() * 2));
         } else if (split){
@@ -155,8 +153,6 @@ public class GameLogic {
         } else {
             person.setMoney(person.getMoney() + person.getBet() + person.getBet());
         }
-
-        System.out.println("You have won " + Integer.toString(person.getMoney() - initialMoney));
     }
 
 
@@ -167,7 +163,7 @@ public class GameLogic {
         // if winner == null -> draw, refund player the initial wager
         if (winner == null) {
             person.setMoney(person.getMoney() + person.getBet());
-        }else if (winner == dealer && person.getHasSurrendered()) { // if player surrendered -> dealer win -> player get 1/2 wager back
+        } else if (winner == dealer && person.getHasSurrendered()) { // if player surrendered -> dealer win -> player get 1/2 wager back
             person.setMoney(person.getMoney() + (person.getBet() / 2));
         } else if (winner == person) {     // if winner is player
             if (person.getHasSplit() && dealer.getHasBusted()) {    // if winner has a split and dealer has busted

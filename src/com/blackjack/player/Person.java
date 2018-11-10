@@ -98,6 +98,10 @@ public class Person extends Player {
         return hasSplit;
     }
 
+    public boolean getHasEndedSplit() {
+        return hasEndedSplit;
+    }
+
     public boolean getHasBustedSplit() {
         return hasBustedSplit;
     }

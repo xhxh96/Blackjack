@@ -9,14 +9,6 @@ import com.blackjack.util.IOUtil;
 
 /**
  * A classic game of Blackjack.
- *
- * House Rules:
- * 1.   No resplitting - split is only allowed for the first 2 cards.
- * 2.   No other restrictions on split card - split cards are allowed to double down; players can hit more than one card
- *      for splitting of Aces.
- * 3.   Early surrender is allowed. No late surrender is offered in this house.
- * 4.   No insurance bet.
- * 5.   Blackjack payout at 2:1.
  */
 
 public class Main {
@@ -26,7 +18,7 @@ public class Main {
             "3. Split or Surrender are only valid if they are your first move.\n" +
             "4. No resplitting is allowed - split is limited to at most 2 hands.\n" +
             "5. Buy-in has a minimum of $100 and maximum of (also) $100. Stake is at $10.\n" +
-            "6. Doubledown for split is allowed.\n" +
+            "6. Doubledown for split is allowed.\n\n" +
             "To begin game, enter Y. Otherwise, enter N to exit.";
 
     public static void main(String[] args) {
@@ -44,6 +36,9 @@ public class Main {
 
             // Initialize a new deck
             Deck deck = new Deck();
+
+            // Store initial money
+            Integer initialMoney = person.getMoney();
 
             // Initialize the game for both dealer and person
             gameLogic.startRound(person, dealer);
@@ -70,6 +65,14 @@ public class Main {
             Player winner = gameLogic.determineWinner(person, dealer);
             gameLogic.conferWinner(winner, person, dealer);
 
+            Integer amountWon = person.getMoney() - initialMoney;
+
+            if (amountWon > 0) {
+                System.out.println("You have won $" + amountWon);
+            } else {
+                System.out.println("You have lost $" + abs(amountWon));
+            }
+
             System.out.println("Your current pool is $" + person.getMoney());
             System.out.println("======== END OF ROUND ========");
             System.out.println("Continue? (Y/N)");
@@ -82,9 +85,9 @@ public class Main {
         if (balance.equals(0)) {
             System.out.println("You either broke even, or you didn't even play Alice Blackjack ...");
         } else if (balance > 0) {
-            System.out.println("You have earned $" + Integer.toString(balance));
+            System.out.println("You have won $" + balance + ". Thanks for playing!");
         } else {
-            System.out.println("You have lost $" + Integer.toString(abs(balance)));
+            System.out.println("You have lost $" + abs(balance) + ". Try again next time.");
         }
     }
 }

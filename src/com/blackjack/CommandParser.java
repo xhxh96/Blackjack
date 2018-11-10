@@ -21,10 +21,19 @@ public class CommandParser {
         case StandCommand.COMMAND_WORD:
             return new StandCommand();
         case DoubleDownCommand.COMMAND_WORD:
-            // Checks if this is the first action used
-            if (person.getHand().size() > 2) {
+            // Checks if this is the first action for non-split hand
+            if (person.getHand().size() > 2)  {
                 throw new Exception("Invalid command");
             }
+
+            // Checks if this is the first action for split hand
+            if ((person.getHasSplit() && !person.getHasEndedTurn() && person.getHand().size() > 1)) {
+                throw new Exception("Invalid command");
+            }
+            if (person.getHasSplit() && !person.getHasEndedSplit() && person.getSplitHand().size() > 1) {
+                throw new Exception("Invalid command");
+            }
+
             return new DoubleDownCommand();
         case SplitCommand.COMMAND_WORD:
             // Checks if this is the first action used, and if the cards dealt care valid for a split
